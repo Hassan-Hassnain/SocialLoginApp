@@ -30,7 +30,7 @@ export const Screen = ({
   statusBarColor,
   barStyle = 'dark-content',
   translucent = true,
-  padding = 'small',
+  padding = 'medium',
   paddingHorizontal,
   paddingVertical,
   fullscreen,
