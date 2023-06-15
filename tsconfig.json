@@ -1,0 +1,22 @@
+{
+  "extends": "@tsconfig/react-native/tsconfig.json",
+  "compilerOptions": {
+    "strict": true,
+    // Path alias config
+    "baseUrl": ".",
+    "paths": {
+      "~/*": ["src/*"],
+      "underscore": ["lodash"]
+    },
+    "typeRoots": [
+      "./types"
+    ] /* List of folders to include type definitions from. */,
+    "types": [
+      // "node"
+      // "jest",
+      // "@types/jest"
+    ] /* Type declaration files to be included in compilation. */,
+    "allowSyntheticDefaultImports": true /* Allow default imports from modules with no default export. This does not affect code emit, just typechecking. */,
+    "esModuleInterop": true
+  }
+}
