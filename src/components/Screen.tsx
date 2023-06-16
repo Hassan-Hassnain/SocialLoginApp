@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
 
-    marginTop: StatusBar.currentHeight,
+    // marginTop: StatusBar.currentHeight, //TODO: cOMMENT THIS LINE IF USING NAVIGATION
   },
 
   fullScreenStyle: {

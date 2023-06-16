@@ -15,15 +15,15 @@ import {Title} from '~/components/Title';
 import auth from '@react-native-firebase/auth';
 import {useTheme} from 'react-native-paper';
 
-export const Login = () => {
-  // Set an initializing state whilst Firebase connects
+interface LoginScreenProps extends NavigationTypes.Login {}
+
+export const Login = ({navigation}: LoginScreenProps) => {
   const theme = useTheme();
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState<Firebase.AuthUser>();
   const [info, setInfo] = useState({email: '', password: ''});
   const [passwordVisibility, setPasswordVisibility] = useState(false);
 
-  // Handle user state changes
   function onAuthStateChanged(response: Firebase.AuthUser | any) {
     setUser(response);
     if (initializing) setInitializing(false);
@@ -81,9 +81,9 @@ export const Login = () => {
             </Row>
           </Touchable>
           <Button
-            text="Google Login"
+            text="Login"
             containerStyle={styles.container}
-            style={[styles.google, {backgroundColor: theme.colors.primary}]}
+            style={[styles.login]}
             textStyle={styles.btnText}
             onPress={() => {
               console.log(info);
@@ -92,14 +92,30 @@ export const Login = () => {
 
           <Touchable
             style={styles.regiterTextContainer}
-            onPress={() => {
-              console.log('Register New Account');
-            }}>
+            onPress={() => navigation.navigate('Register')}>
             <Row verticalAlignment="center" horizontalAlignment="center">
               <Text style={styles.regiterText}>Not have an account? </Text>
               <Text style={styles.regiterText}>REGISTER</Text>
             </Row>
           </Touchable>
+          <Button
+            text="Google Login"
+            containerStyle={styles.container}
+            style={[styles.login, {backgroundColor: theme.colors.primary}]}
+            textStyle={styles.btnText}
+            onPress={() => {
+              console.log(info);
+            }}
+          />
+          <Button
+            text="Phone Login"
+            containerStyle={styles.container}
+            style={[styles.login, {backgroundColor: theme.colors.primary}]}
+            textStyle={styles.btnText}
+            onPress={() => {
+              navigation.navigate('Phone');
+            }}
+          />
         </DismissKeyboardView>
       </Screen>
     );
@@ -120,9 +136,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     margin: 10,
   },
-  google: {
-    // backgroundColor: 'red',
-  },
+  login: {backgroundColor: 'blue'},
   facebook: {
     backgroundColor: 'blue',
   },

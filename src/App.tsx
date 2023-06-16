@@ -1,8 +1,10 @@
 import React, {useEffect} from 'react';
 
-import {Login} from './Screens/Login';
+import {AuthNavigationContainer} from './navigation';
 import {ThemeProvider} from './theme/ThemeProvider';
 import {firebase} from '@react-native-firebase/auth';
+
+// import {Login} from './Screens/Login';
 
 // import {App} from './Screens/Firebase';
 
@@ -12,8 +14,9 @@ const ThemedApp = () => {
   }, []);
   return (
     <ThemeProvider>
-      <Login />
+      {/* <Login /> */}
       {/* <App /> */}
+      <AuthNavigationContainer />
     </ThemeProvider>
   );
 };
