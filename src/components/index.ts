@@ -13,6 +13,7 @@ export * from './PaperComponents';
 export * from './RadioGroup';
 export * from './Screen';
 export * from './Text';
+export * from './TextField';
 export * from './Title';
 export * from './Toast';
 export * from './Touchable';

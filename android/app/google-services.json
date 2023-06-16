@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "313777928670",
+    "project_id": "social-auth-portfolio",
+    "storage_bucket": "social-auth-portfolio.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:313777928670:android:700fa01081a5ee8176454f",
+        "android_client_info": {
+          "package_name": "com.socialloginapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "313777928670-gm4tkudf2meuk15rtg450atl9f0hpol4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAiBAnnmrBXQ44TpsPuQfbPqXMfng9xwn4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "313777928670-gm4tkudf2meuk15rtg450atl9f0hpol4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

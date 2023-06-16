@@ -88,6 +88,6 @@ export const AddCircleIcon = (props: StaticIconProps) => (
   <Icon name="add-circle" font="mat" {...props} />
 );
 
-export const QRCodeIcon = (props: StaticIconProps) => (
-  <Icon name="qr-code-scanner" font="mat" {...props} />
+export const EmailIcon = (props: StaticIconProps) => (
+  <Icon name="email-outline" font="mat" {...props} />
 );
