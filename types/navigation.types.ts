@@ -4,7 +4,7 @@ type AuthStackParamList = {
   Login: undefined;
   Register: undefined;
   Phone: undefined;
-  UserInfo: undefined;
+  UserInfo: {user: Firebase.AuthUser};
   ForgotPassword: undefined;
 };
 

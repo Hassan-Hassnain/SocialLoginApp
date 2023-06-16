@@ -4,7 +4,7 @@ export const createUserWithEmailAndPassword = (
   email: string,
   password: string,
 ) => {
-  return auth()
+  auth()
     .createUserWithEmailAndPassword(email, password)
     .then((credential: Firebase.UserCredential) => {
       console.log('User account created & signed in!');
@@ -20,7 +20,21 @@ export const createUserWithEmailAndPassword = (
         console.log('That email address is invalid!');
         return 'That email address is invalid!';
       }
+      if (error.code === 'auth/weak-password') {
+        console.log('That email address is invalid!');
+        return 'The given password is invalid.\n Password should be at least 6 characters';
+      }
 
       console.error(error);
     });
+};
+
+export const signInWithEmailAndPassword = (email: string, password: string) => {
+  return auth().signInWithEmailAndPassword(email, password);
+};
+
+export const logout = () => {
+  return auth()
+    .signOut()
+    .then(() => console.log('User signed out!'));
 };

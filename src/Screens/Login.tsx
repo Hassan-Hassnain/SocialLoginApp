@@ -6,6 +6,7 @@ import {
   Screen,
   Text,
   TextField,
+  Toast as Toaster,
   Touchable,
 } from '~/components';
 import React, {useEffect, useState} from 'react';
@@ -13,6 +14,7 @@ import React, {useEffect, useState} from 'react';
 import {StyleSheet} from 'react-native';
 import {Title} from '~/components/Title';
 import auth from '@react-native-firebase/auth';
+import {signInWithEmailAndPassword} from '~/Services/email';
 import {useTheme} from 'react-native-paper';
 
 interface LoginScreenProps extends NavigationTypes.Login {}
@@ -38,7 +40,9 @@ export const Login = ({navigation}: LoginScreenProps) => {
   if (initializing) {
     return <Loader />;
   }
-
+  if (user) {
+    navigation.navigate('UserInfo', {user});
+  }
   if (!user) {
     return (
       <Screen>
@@ -85,8 +89,30 @@ export const Login = ({navigation}: LoginScreenProps) => {
             containerStyle={styles.container}
             style={[styles.login]}
             textStyle={styles.btnText}
-            onPress={() => {
-              console.log(info);
+            onPress={async () => {
+              try {
+                if (info.email === '' || info.password === '') {
+                  Toaster.show({
+                    title: 'Error',
+                    subTitle: 'Some thing is wrong',
+                    duration: 3000,
+                    type: 'error',
+                    position: 'top',
+                  });
+                  return;
+                }
+                // const credentials = await createUserWithEmailAndPassword(
+                //   info.email,
+                //   info.password,
+                // );
+                const credentials = await signInWithEmailAndPassword(
+                  info.email,
+                  info.password,
+                );
+                console.log(credentials);
+              } catch (error) {
+                console.log(error);
+              }
             }}
           />
 

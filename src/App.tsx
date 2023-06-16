@@ -2,11 +2,8 @@ import React, {useEffect} from 'react';
 
 import {AuthNavigationContainer} from './navigation';
 import {ThemeProvider} from './theme/ThemeProvider';
+import Toast from 'react-native-toast-message';
 import {firebase} from '@react-native-firebase/auth';
-
-// import {Login} from './Screens/Login';
-
-// import {App} from './Screens/Firebase';
 
 const ThemedApp = () => {
   useEffect(() => {
@@ -14,9 +11,8 @@ const ThemedApp = () => {
   }, []);
   return (
     <ThemeProvider>
-      {/* <Login /> */}
-      {/* <App /> */}
       <AuthNavigationContainer />
+      <Toast />
     </ThemeProvider>
   );
 };
