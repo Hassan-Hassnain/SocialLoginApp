@@ -14,8 +14,10 @@ type ButtonProps = Pick<
   'onPress' | 'disabled'
 > &
   ComponentProps<typeof FlexBox> & {
-    textStyle?: StyleProp<TextStyle>;
+    containerStyle?: StyleProp<ViewStyle>;
     style?: StyleProp<ViewStyle>;
+    textStyle?: StyleProp<TextStyle>;
+
     textProps?: ComponentProps<typeof Text>;
     text: string;
     allCaps?: boolean;
@@ -31,6 +33,7 @@ function BaseButton(props: ButtonProps & WithTheme) {
     textProps,
     textStyle,
     style,
+    containerStyle,
     theme,
     text,
     allCaps,
@@ -38,7 +41,10 @@ function BaseButton(props: ButtonProps & WithTheme) {
     ...otherProps
   } = props;
   return (
-    <Touchable onPress={onPress} disabled={disabled || loading}>
+    <Touchable
+      onPress={onPress}
+      disabled={disabled || loading}
+      style={containerStyle}>
       <FlexBox
         horizontalAlignment="center"
         verticalAlignment="center"
@@ -46,9 +52,9 @@ function BaseButton(props: ButtonProps & WithTheme) {
           styles.button,
           !flat && {backgroundColor: theme.colors.buttonBackgroundColor},
           flat && {
-            backgroundColor: 'transparent',
             borderColor: theme.colors.buttonBackgroundColor,
             borderWidth: fw(1),
+            backgroundColor: 'transparent',
           },
           style,
           disabled && {
@@ -99,17 +105,7 @@ function BaseIconButton(props: IconButtonProps & WithTheme) {
       {...touchableProps}>
       {icon}
       {props.showBadge && (
-        <Badge
-          visible
-          size={fw(20)}
-          style={[
-            {
-              position: 'absolute',
-              top: 0,
-              right: 0,
-            },
-            props.badgeStyle,
-          ]}>
+        <Badge visible size={fw(20)} style={[styles.bIcon, props.badgeStyle]}>
           {props.badge}
         </Badge>
       )}
@@ -129,5 +125,10 @@ const styles = StyleSheet.create({
   },
   bText: {
     fontSize: dimen.button.title,
+  },
+  bIcon: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
   },
 });

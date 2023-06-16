@@ -20,14 +20,12 @@ export const Text = ({style, ...props}: TextProps): React.ReactElement => {
   // const fontStyle =
   // textStyle && textStyle.fontFamily ? getFontStyle(textStyle.fontFamily) : {};
 
-  console.log('Theme => ', JSON.stringify(theme.colors.textColor, null, 2));
   return (
     <RNText
       style={[
         styles.text,
         {
           color: theme.colors.textColor,
-          // color: 'blue',
         },
         style,
         // fontStyle,
