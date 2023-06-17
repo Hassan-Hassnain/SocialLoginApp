@@ -17,14 +17,14 @@ import auth from '@react-native-firebase/auth';
 import {signInWithEmailAndPassword} from '~/Services/email';
 import {useTheme} from 'react-native-paper';
 
-interface LoginScreenProps extends NavigationTypes.Login {}
+interface LoginScreenProps extends NavigationProps.Login {}
 
 export const Login = ({navigation}: LoginScreenProps) => {
   const theme = useTheme();
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState<Firebase.AuthUser>();
   const [info, setInfo] = useState({email: '', password: ''});
-  const [passwordVisibility, setPasswordVisibility] = useState(false);
+  const [passwordVisibility, setPasswordVisibility] = useState(true);
 
   function onAuthStateChanged(response: Firebase.AuthUser | any) {
     setUser(response);
@@ -77,9 +77,7 @@ export const Login = ({navigation}: LoginScreenProps) => {
           />
           <Touchable
             style={styles.forgotPassword}
-            onPress={() => {
-              console.log('Forgot Password');
-            }}>
+            onPress={() => navigation.navigate('ForgotPassword')}>
             <Row horizontalAlignment="flex-end">
               <Text style={styles.forgotPasswordText}>Forgot Password </Text>
             </Row>
@@ -111,7 +109,13 @@ export const Login = ({navigation}: LoginScreenProps) => {
                 );
                 console.log(credentials);
               } catch (error) {
-                console.log(error);
+                Toaster.show({
+                  title: 'Error',
+                  subTitle: 'Check email and password. Try again.',
+                  duration: 3000,
+                  type: 'error',
+                  position: 'top',
+                });
               }
             }}
           />

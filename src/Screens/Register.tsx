@@ -13,7 +13,7 @@ import {
 
 import {StyleSheet} from 'react-native';
 
-interface Props extends NavigationTypes.Register {}
+interface Props extends NavigationProps.Register {}
 export const Register = ({navigation}: Props) => {
   const [info, setInfo] = useState({
     email: '',

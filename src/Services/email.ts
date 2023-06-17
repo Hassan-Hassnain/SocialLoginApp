@@ -33,6 +33,20 @@ export const signInWithEmailAndPassword = (email: string, password: string) => {
   return auth().signInWithEmailAndPassword(email, password);
 };
 
+export const varigyEmail = () => {
+  // return auth().currentUser?.sendEmailVerification({
+  //   handleCodeInApp: true,
+  // });
+  return auth().currentUser?.sendEmailVerification({
+    handleCodeInApp: false,
+    url: '',
+  });
+};
+
+export const sendPasswordResetEmail = (email: string) => {
+  return auth().sendPasswordResetEmail(email);
+};
+
 export const logout = () => {
   return auth()
     .signOut()

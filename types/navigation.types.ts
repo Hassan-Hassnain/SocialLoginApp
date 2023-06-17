@@ -9,7 +9,7 @@ type AuthStackParamList = {
 };
 
 declare global {
-  namespace NavigationTypes {
+  namespace NavigationProps {
     type Login = NativeStackScreenProps<AuthStackParamList, 'Login'>;
     type Register = NativeStackScreenProps<AuthStackParamList, 'Register'>;
     type Phone = NativeStackScreenProps<AuthStackParamList, 'Phone'>;

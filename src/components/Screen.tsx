@@ -33,7 +33,7 @@ export const Screen = ({
   padding = 'medium',
   paddingHorizontal,
   paddingVertical,
-  fullscreen,
+  fullscreen = true,
   ...viewProps
 }: Props): SingleElement => {
   // useEffect(() => {
