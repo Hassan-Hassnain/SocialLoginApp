@@ -1,7 +1,7 @@
-import {Button, TextField, Title, Toast} from '~/components';
+import {Button, Screen, TextField, Title, Toast} from '~/components';
 import React, {useState} from 'react';
 
-import {Screen} from 'react-native-screens';
+import {ErrorToast} from '~/Services/utils';
 import {StyleSheet} from 'react-native';
 import {sendPasswordResetEmail} from '~/Services';
 import {useTheme} from 'react-native-paper';
@@ -22,12 +22,11 @@ export const ForgotPasswordScreen = ({navigation}: Props) => {
         left={{icon: 'email'}}
       />
       <Button
-        text="Send Varification Email"
+        text="Reset Password"
         containerStyle={styles.container}
         style={[styles.login, {backgroundColor: theme.colors.primary}]}
         textStyle={styles.btnText}
         onPress={async () => {
-          if (email === '') return;
           try {
             await sendPasswordResetEmail(email);
             Toast.show({
@@ -38,8 +37,8 @@ export const ForgotPasswordScreen = ({navigation}: Props) => {
               position: 'top',
             });
             navigation.navigate('Login');
-          } catch (error) {
-            console.log(error);
+          } catch (error: any) {
+            ErrorToast(error.code);
           }
         }}
       />

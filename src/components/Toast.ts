@@ -17,7 +17,7 @@ class ToastClass {
   show = ({
     title,
     subTitle,
-    duration = 500,
+    duration = 3000,
     type = 'info',
     position = 'bottom',
     ...options

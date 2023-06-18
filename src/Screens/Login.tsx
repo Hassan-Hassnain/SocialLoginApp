@@ -11,6 +11,7 @@ import {
 } from '~/components';
 import React, {useEffect, useState} from 'react';
 
+import {ErrorToast} from '~/Services/utils';
 import {StyleSheet} from 'react-native';
 import {Title} from '~/components/Title';
 import auth from '@react-native-firebase/auth';
@@ -99,23 +100,13 @@ export const Login = ({navigation}: LoginScreenProps) => {
                   });
                   return;
                 }
-                // const credentials = await createUserWithEmailAndPassword(
-                //   info.email,
-                //   info.password,
-                // );
                 const credentials = await signInWithEmailAndPassword(
                   info.email,
                   info.password,
                 );
                 console.log(credentials);
-              } catch (error) {
-                Toaster.show({
-                  title: 'Error',
-                  subTitle: 'Check email and password. Try again.',
-                  duration: 3000,
-                  type: 'error',
-                  position: 'top',
-                });
+              } catch (error: any) {
+                ErrorToast(error.code);
               }
             }}
           />

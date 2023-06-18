@@ -1,4 +1,8 @@
-import auth from '@react-native-firebase/auth';
+// import auth from '@react-native-firebase/auth'; TODO: Remove this library if firebas web app work correctly.
+
+import {firebaseApp} from './firebaseConfig';
+
+const auth = firebaseApp.auth;
 
 export const createUserWithEmailAndPassword = (
   email: string,
@@ -24,8 +28,6 @@ export const createUserWithEmailAndPassword = (
         console.log('That email address is invalid!');
         return 'The given password is invalid.\n Password should be at least 6 characters';
       }
-
-      console.error(error);
     });
 };
 
@@ -39,7 +41,7 @@ export const varigyEmail = () => {
   // });
   return auth().currentUser?.sendEmailVerification({
     handleCodeInApp: false,
-    url: '',
+    url: 'social-auth-portfolio.firebaseapp.com',
   });
 };
 

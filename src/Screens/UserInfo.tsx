@@ -1,6 +1,7 @@
 import {Button, FlexBox, Row, Screen, Text, Title, Toast} from '~/components';
 import {logout, varigyEmail} from '~/Services/email';
 
+import {ErrorToast} from '~/Services/utils';
 import React from 'react';
 import {StyleSheet} from 'react-native';
 import {useTheme} from 'react-native-paper';
@@ -12,7 +13,6 @@ export const UserInfo = ({navigation, route}: Props) => {
   const theme = useTheme();
   return (
     <Screen>
-      {/* <KeyboardAvoidingScrollView> */}
       <FlexBox spread>
         <Title style={styles.title}>User Information</Title>
         <Row>
@@ -35,6 +35,8 @@ export const UserInfo = ({navigation, route}: Props) => {
                 title: 'Varification',
                 subTitle:
                   'Email Varification email sent to your Account. Varify you Email.',
+                position: 'top',
+                duration: 5000,
               });
               // navigation.navigate('Login');
             } catch (error) {
@@ -52,8 +54,8 @@ export const UserInfo = ({navigation, route}: Props) => {
           try {
             await logout();
             navigation.navigate('Login');
-          } catch (error) {
-            console.log(error);
+          } catch (error: any) {
+            ErrorToast(error.code);
           }
         }}
       />

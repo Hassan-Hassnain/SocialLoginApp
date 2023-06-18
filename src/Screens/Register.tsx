@@ -11,6 +11,7 @@ import {
   signInWithEmailAndPassword,
 } from '~/Services/email';
 
+import {ErrorToast} from '~/Services/utils';
 import {StyleSheet} from 'react-native';
 
 interface Props extends NavigationProps.Register {}
@@ -111,8 +112,8 @@ export const Register = ({navigation}: Props) => {
                 info.password,
               );
               navigation.navigate('UserInfo', {user: credentials as any});
-            } catch (error) {
-              console.log(error);
+            } catch (error: any) {
+              ErrorToast(error.code);
             }
           }}
         />
