@@ -10,6 +10,7 @@ interface Props extends NavigationProps.ForgotPassword {}
 export const ForgotPasswordScreen = ({navigation}: Props) => {
   const theme = useTheme();
   const [email, setEmail] = useState('');
+  const [loading, setLoading] = useState(false);
   return (
     <Screen>
       <Title style={styles.title}>Forgot Password</Title>
@@ -23,10 +24,12 @@ export const ForgotPasswordScreen = ({navigation}: Props) => {
       />
       <Button
         text="Reset Password"
+        loading={loading}
         containerStyle={styles.container}
         style={[styles.login, {backgroundColor: theme.colors.primary}]}
         textStyle={styles.btnText}
         onPress={async () => {
+          setLoading(true);
           try {
             await sendPasswordResetEmail(email);
             Toast.show({
@@ -40,6 +43,7 @@ export const ForgotPasswordScreen = ({navigation}: Props) => {
           } catch (error: any) {
             ErrorToast(error.code);
           }
+          setLoading(false);
         }}
       />
     </Screen>

@@ -9,5 +9,6 @@ declare global {
       code: string;
       description: string;
     }
+    type AuthStateListener = FirebaseAuthTypes.AuthListenerCallback;
   }
 }

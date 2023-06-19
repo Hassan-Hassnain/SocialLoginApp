@@ -11,21 +11,41 @@ import {
   signInWithEmailAndPassword,
 } from '~/Services/email';
 
+import {Avatar} from 'react-native-paper';
 import {ErrorToast} from '~/Services/utils';
 import {StyleSheet} from 'react-native';
+import {images} from '~/Assets/images';
+import {wait} from '~/utils/Utils';
 
 interface Props extends NavigationProps.Register {}
 export const Register = ({navigation}: Props) => {
   const [info, setInfo] = useState({
+    name: '',
     email: '',
     password: '',
     confirmPassword: '',
+    loading: false,
   });
   const [passwordVisibility, setPasswordVisibility] = useState(true);
 
   return (
     <Screen>
       <KeyboardAvoidingScrollView>
+        <Avatar.Image
+          size={120}
+          source={images.avatar}
+          style={{alignSelf: 'center', margin: 20}}
+        />
+        <TextField
+          label={'Full Name'}
+          value={info.name}
+          onChangeText={(value: string) => {
+            setInfo({...info, name: value});
+          }}
+          placeholder={'Enter your full name.'}
+          mode="outlined"
+          left={{icon: 'account-question-outline'}}
+        />
         <TextField
           label={'Email'}
           value={info.email}
@@ -72,10 +92,12 @@ export const Register = ({navigation}: Props) => {
         />
         <Button
           text="Create Account"
+          loading={info.loading}
           containerStyle={styles.container}
           style={[styles.login]}
           textStyle={styles.btnText}
           onPress={async () => {
+            setInfo({...info, loading: true});
             try {
               if (
                 (info.email === '' || info.password === '',
@@ -99,6 +121,7 @@ export const Register = ({navigation}: Props) => {
                 return;
               }
               await createUserWithEmailAndPassword(info.email, info.password);
+              await wait(2000);
               await Toast.show({
                 title: 'Congratulations!',
                 subTitle:
@@ -115,6 +138,7 @@ export const Register = ({navigation}: Props) => {
             } catch (error: any) {
               ErrorToast(error.code);
             }
+            setInfo({...info, loading: false});
           }}
         />
       </KeyboardAvoidingScrollView>

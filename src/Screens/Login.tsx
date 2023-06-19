@@ -10,12 +10,14 @@ import {
   Touchable,
 } from '~/components';
 import React, {useEffect, useState} from 'react';
+import {
+  attachAuthStateListener,
+  signInWithEmailAndPassword,
+} from '~/Services/email';
 
 import {ErrorToast} from '~/Services/utils';
 import {StyleSheet} from 'react-native';
 import {Title} from '~/components/Title';
-import auth from '@react-native-firebase/auth';
-import {signInWithEmailAndPassword} from '~/Services/email';
 import {useTheme} from 'react-native-paper';
 
 interface LoginScreenProps extends NavigationProps.Login {}
@@ -26,6 +28,7 @@ export const Login = ({navigation}: LoginScreenProps) => {
   const [user, setUser] = useState<Firebase.AuthUser>();
   const [info, setInfo] = useState({email: '', password: ''});
   const [passwordVisibility, setPasswordVisibility] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   function onAuthStateChanged(response: Firebase.AuthUser | any) {
     setUser(response);
@@ -33,8 +36,8 @@ export const Login = ({navigation}: LoginScreenProps) => {
   }
 
   useEffect(() => {
-    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
-    setPasswordVisibility(false);
+    const subscriber = attachAuthStateListener(onAuthStateChanged);
+    setPasswordVisibility(true);
     return subscriber; // unsubscribe on unmount
   }, []);
 
@@ -85,10 +88,12 @@ export const Login = ({navigation}: LoginScreenProps) => {
           </Touchable>
           <Button
             text="Login"
+            loading={loading}
             containerStyle={styles.container}
             style={[styles.login]}
             textStyle={styles.btnText}
             onPress={async () => {
+              setLoading(true);
               try {
                 if (info.email === '' || info.password === '') {
                   Toaster.show({
@@ -108,6 +113,7 @@ export const Login = ({navigation}: LoginScreenProps) => {
               } catch (error: any) {
                 ErrorToast(error.code);
               }
+              setLoading(false);
             }}
           />
 

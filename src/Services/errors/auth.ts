@@ -10,6 +10,11 @@ export const authError: Firebase.Error[] = [
       'The provided email is already in use by an existing user. Each user must have a unique email.',
   },
   {
+    code: 'auth/email-already-in-use',
+    description:
+      'The provided email is already in use by an existing user. Each user must have a unique email.',
+  },
+  {
     code: 'auth/id-token-expired',
     description: 'The provided Firebase ID token is expired.',
   },
