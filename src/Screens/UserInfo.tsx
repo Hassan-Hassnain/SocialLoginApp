@@ -23,27 +23,30 @@ export const UserInfo = ({navigation, route}: Props) => {
         <Text style={styles.text}>
           {emailVerified ? 'Email varified' : 'Email varification is pending'}
         </Text>
-        <Button
-          text="Varify Now"
-          containerStyle={styles.container}
-          style={[styles.login, {backgroundColor: theme.colors.primary}]}
-          textStyle={styles.btnText}
-          onPress={async () => {
-            try {
-              await varigyEmail();
-              Toast.show({
-                title: 'Varification',
-                subTitle:
-                  'Email Varification email sent to your Account. Varify you Email.',
-                position: 'top',
-                duration: 5000,
-              });
-              // navigation.navigate('Login');
-            } catch (error) {
-              console.log(error);
-            }
-          }}
-        />
+        {!emailVerified && (
+          <Button
+            text="Varify Now"
+            containerStyle={styles.container}
+            style={[styles.login, {backgroundColor: theme.colors.primary}]}
+            textStyle={styles.btnText}
+            onPress={async () => {
+              try {
+                await varigyEmail();
+                Toast.show({
+                  title: 'Varification',
+                  subTitle:
+                    'Email Varification email sent to your Account. Varify you Email.',
+                  position: 'top',
+                  duration: 5000,
+                });
+                // navigation.navigate('Login');
+              } catch (error: any) {
+                console.log(error);
+                ErrorToast(error.code);
+              }
+            }}
+          />
+        )}
       </FlexBox>
       <Button
         text="Logout"

@@ -39,9 +39,11 @@ export const varigyEmail = () => {
   // return auth().currentUser?.sendEmailVerification({
   //   handleCodeInApp: true,
   // });
+  console.log(auth().currentUser);
   return auth().currentUser?.sendEmailVerification({
     handleCodeInApp: false,
-    url: 'social-auth-portfolio.firebaseapp.com',
+    // url: 'social-auth-portfolio.firebaseapp.com',
+    url: 'www.hubengineering.pk',
   });
 };
 
