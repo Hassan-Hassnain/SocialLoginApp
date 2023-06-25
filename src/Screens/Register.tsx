@@ -1,9 +1,11 @@
 import {
   Button,
   KeyboardAvoidingScrollView,
+  ProfileImage,
   Screen,
   TextField,
   Toast,
+  Touchable,
 } from '~/components';
 import React, {useState} from 'react';
 import {
@@ -11,31 +13,42 @@ import {
   signInWithEmailAndPassword,
 } from '~/Services/email';
 
-import {Avatar} from 'react-native-paper';
 import {ErrorToast} from '~/Services/utils';
+import {ImagePickerBottomSheet} from '~/components/ImagePickerBottomSheet';
+import {ImagePickerResponse} from 'react-native-image-picker';
 import {StyleSheet} from 'react-native';
-import {images} from '~/Assets/images';
+import {uploadProfilePicture} from '~/Services/storage';
 import {wait} from '~/utils/Utils';
+
+// import {uploadProfilePicture} from '~/Services/storage';
 
 interface Props extends NavigationProps.Register {}
 export const Register = ({navigation}: Props) => {
   const [info, setInfo] = useState({
     name: '',
+    imageUri: undefined,
+    imageUrl: '',
     email: '',
     password: '',
     confirmPassword: '',
     loading: false,
   });
   const [passwordVisibility, setPasswordVisibility] = useState(true);
+  const [imagePickerVisibility, setImagePickerVisibility] = useState(false);
 
   return (
     <Screen>
       <KeyboardAvoidingScrollView>
-        <Avatar.Image
-          size={120}
-          source={images.avatar}
-          style={{alignSelf: 'center', margin: 20}}
-        />
+        <Touchable style={{flex: 1, marginTop: 10}}>
+          <ProfileImage
+            src={info.imageUri}
+            rounded
+            // radius={30}
+            size={200}
+            onPress={() => setImagePickerVisibility(true)}
+          />
+        </Touchable>
+
         <TextField
           label={'Full Name'}
           value={info.name}
@@ -90,6 +103,7 @@ export const Register = ({navigation}: Props) => {
           }}
           secureTextEntry={passwordVisibility}
         />
+
         <Button
           text="Create Account"
           loading={info.loading}
@@ -100,8 +114,9 @@ export const Register = ({navigation}: Props) => {
             setInfo({...info, loading: true});
             try {
               if (
-                (info.email === '' || info.password === '',
-                info.password !== info.confirmPassword)
+                info.email === '' ||
+                info.password === '' ||
+                info.password !== info.confirmPassword
               ) {
                 const subTitle =
                   info.email === ''
@@ -120,8 +135,20 @@ export const Register = ({navigation}: Props) => {
                 });
                 return;
               }
-              await createUserWithEmailAndPassword(info.email, info.password);
+              const response = await createUserWithEmailAndPassword(
+                info.email,
+                info.password,
+              );
+              console.log(response.user.uid);
               await wait(2000);
+              const url = await uploadProfilePicture(
+                `profileImage/${response.user.uid}`,
+                info.imageUri,
+              );
+              console.log('url', url);
+              // if (!url) return;
+              // setInfo({...info, imageUrl: url});
+              console.log(info);
               await Toast.show({
                 title: 'Congratulations!',
                 subTitle:
@@ -141,6 +168,30 @@ export const Register = ({navigation}: Props) => {
             setInfo({...info, loading: false});
           }}
         />
+        <ImagePickerBottomSheet
+          visible={imagePickerVisibility}
+          onClose={() => setImagePickerVisibility(false)}
+          onImageCapture={async (imageResponse: ImagePickerResponse | null) => {
+            if (imageResponse) {
+              const uri = imageResponse.assets?.[0].uri;
+              if (uri) {
+                setInfo({...info, imageUri: uri as any});
+                setImagePickerVisibility(false);
+              }
+              console.log('uri->', uri);
+              if (!uri) return;
+              // try {
+              //   const url = await uploadProfilePicture('profileImage', uri);
+              //   console.log('url', url);
+              //   if (!url) return;
+              //   setInfo({...info, imageUrl: url});
+              //   console.log(info);
+              // } catch (error) {
+              //   console.log(error);
+              // }
+            }
+          }}
+        />
       </KeyboardAvoidingScrollView>
     </Screen>
   );
@@ -156,5 +207,5 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     margin: 10,
   },
-  login: {backgroundColor: 'blue'},
+  login: {backgroundColor: 'blue', marginTop: 30},
 });

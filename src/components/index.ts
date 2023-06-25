@@ -1,4 +1,5 @@
 export * from './Arch';
+export * from './ProfileImage';
 export * from './Buttons';
 export * from './CheckboxGroup';
 export * from './DismissKeyboardView';
