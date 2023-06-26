@@ -42,7 +42,7 @@ export const ProfileImage = ({
     alignItems: 'center',
     justifyContent: 'center',
     alignSelf: 'center',
-    flex: 1,
+    // flex: 1,
   };
 
   return (

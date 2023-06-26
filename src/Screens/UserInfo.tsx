@@ -1,20 +1,50 @@
-import {Button, FlexBox, Row, Screen, Text, Title, Toast} from '~/components';
+import {
+  Button,
+  FlexBox,
+  ProfileImage,
+  Row,
+  Screen,
+  Text,
+  Title,
+  Toast,
+} from '~/components';
+import React, {useEffect, useState} from 'react';
 import {logout, varigyEmail} from '~/Services/email';
 
 import {ErrorToast} from '~/Services/utils';
-import React from 'react';
 import {StyleSheet} from 'react-native';
+import {getDownloadUrl} from '~/Services/storage';
 import {useTheme} from 'react-native-paper';
 
 interface Props extends NavigationProps.UserInfo {}
 export const UserInfo = ({navigation, route}: Props) => {
-  console.log(route.params.user);
-  const {email, emailVerified} = route.params.user;
+  console.log('user info ', JSON.stringify(route.params.user, null, 2));
+  const {email, emailVerified, uid} = route.params.user;
   const theme = useTheme();
+  const [userImage, setUserImage] = useState<string | undefined>();
+
+  const dowwnloadImage = async () => {
+    try {
+      const url = await getDownloadUrl(`profileImage/${uid}`);
+      setUserImage(url);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {}, []);
+  dowwnloadImage();
   return (
     <Screen>
       <FlexBox spread>
         <Title style={styles.title}>User Information</Title>
+        <ProfileImage
+          src={userImage}
+          rounded
+          // radius={30}
+          size={200}
+          // onPress={() => setImagePickerVisibility(true)}
+        />
         <Row>
           <Text style={styles.subTitle}>Email:</Text>
           <Text style={styles.text}> {email}</Text>
