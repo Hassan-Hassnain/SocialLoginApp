@@ -1,6 +1,6 @@
 import storage from '@react-native-firebase/storage';
 
-export const uploadProfilePicture = (path: any, uploadUri: any) => {
+export const uploadProfilePicture = async (path: any, uploadUri: any) => {
   // firebase.
   const task = storage().ref(path).putFile(uploadUri);
 
@@ -8,13 +8,15 @@ export const uploadProfilePicture = (path: any, uploadUri: any) => {
     console.log(taskSnapshot.state);
   });
 
-  task
+  await task
     .then(() => {
       console.log('Task complete');
     })
     .catch(error => {
       console.error(error.message);
     });
+  await task;
+  return getDownloadUrl(path);
 };
 
 export const getDownloadUrl = (path: string) => {

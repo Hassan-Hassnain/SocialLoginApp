@@ -5,22 +5,20 @@ import {
   Screen,
   TextField,
   Toast,
-  Touchable,
 } from '~/components';
 import React, {useState} from 'react';
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from '~/Services/email';
+import {getDownloadUrl, uploadProfilePicture} from '~/Services/storage';
 
 import {ErrorToast} from '~/Services/utils';
 import {ImagePickerBottomSheet} from '~/components/ImagePickerBottomSheet';
 import {ImagePickerResponse} from 'react-native-image-picker';
 import {StyleSheet} from 'react-native';
-import {uploadProfilePicture} from '~/Services/storage';
+import {addNewUser} from '~/Services';
 import {wait} from '~/utils/Utils';
-
-// import {uploadProfilePicture} from '~/Services/storage';
 
 interface Props extends NavigationProps.Register {}
 export const Register = ({navigation}: Props) => {
@@ -39,15 +37,12 @@ export const Register = ({navigation}: Props) => {
   return (
     <Screen>
       <KeyboardAvoidingScrollView>
-        <Touchable style={{flex: 1, marginTop: 10}}>
-          <ProfileImage
-            src={info.imageUri}
-            rounded
-            // radius={30}
-            size={200}
-            onPress={() => setImagePickerVisibility(true)}
-          />
-        </Touchable>
+        <ProfileImage
+          src={info.imageUri}
+          rounded
+          size={200}
+          onPress={() => setImagePickerVisibility(true)}
+        />
 
         <TextField
           label={'Full Name'}
@@ -139,16 +134,12 @@ export const Register = ({navigation}: Props) => {
                 info.email,
                 info.password,
               );
-              console.log(response.user.uid);
+              const path = `profileImage/${response.user.uid}`;
+              await uploadProfilePicture(path, info.imageUri);
               await wait(2000);
-              const url = await uploadProfilePicture(
-                `profileImage/${response.user.uid}`,
-                info.imageUri,
-              );
-              console.log('url', url);
-              // if (!url) return;
-              // setInfo({...info, imageUrl: url});
-              console.log(info);
+              const url = await getDownloadUrl(path);
+
+              await addNewUser(response.user.uid, {...info, imageUrl: url});
               await Toast.show({
                 title: 'Congratulations!',
                 subTitle:
@@ -178,17 +169,6 @@ export const Register = ({navigation}: Props) => {
                 setInfo({...info, imageUri: uri as any});
                 setImagePickerVisibility(false);
               }
-              console.log('uri->', uri);
-              if (!uri) return;
-              // try {
-              //   const url = await uploadProfilePicture('profileImage', uri);
-              //   console.log('url', url);
-              //   if (!url) return;
-              //   setInfo({...info, imageUrl: url});
-              //   console.log(info);
-              // } catch (error) {
-              //   console.log(error);
-              // }
             }
           }}
         />

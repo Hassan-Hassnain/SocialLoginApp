@@ -1,6 +1,7 @@
 import {Image, ImageStyle, StyleProp, ViewStyle} from 'react-native';
 
 import {ImagePickerResponse} from 'react-native-image-picker';
+import {Loader} from './Loader';
 import React from 'react';
 import {Touchable} from './Touchable';
 import {images} from '~/Assets/images';
@@ -12,6 +13,7 @@ interface Props {
   style?: StyleProp<ImageStyle>;
   containerStyle?: StyleProp<ViewStyle>;
   src?: string;
+  loading?: boolean;
   onImageUpdate?: (image: ImagePickerResponse) => void;
   onPress?: () => void;
 }
@@ -28,6 +30,7 @@ export const ProfileImage = ({
   rounded = false,
   radius = 0,
   containerStyle,
+  loading,
   onPress,
 }: Props) => {
   const s: StyleProp<ImageStyle> = {
@@ -49,6 +52,8 @@ export const ProfileImage = ({
     <Touchable style={[containerS, containerStyle]} onPress={onPress}>
       {src ? (
         <Image source={{uri: src}} style={[s, style]} />
+      ) : loading ? (
+        <Loader size="large" />
       ) : (
         <Image
           source={images.avatar}
