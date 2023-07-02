@@ -1,56 +1,43 @@
-import {
-  Button,
-  FlexBox,
-  ProfileImage,
-  Row,
-  Screen,
-  Text,
-  Title,
-  Toast,
-} from '~/components';
-import React, {useEffect, useState} from 'react';
-import {logout, varigyEmail} from '~/Services/email';
+import {Button, FlexBox, ProfileImage, Screen, Text, Title} from '~/components';
+import React, {useEffect} from 'react';
 
 import {ErrorToast} from '~/Services/utils';
 import {StyleSheet} from 'react-native';
-import {getDownloadUrl} from '~/Services/storage';
+import {logout} from '~/Services/email';
+import {theme} from '~/theme/ThemeProvider';
 import {useTheme} from 'react-native-paper';
 
 interface Props extends NavigationProps.UserInfo {}
 export const UserInfo = ({navigation, route}: Props) => {
   console.log('user info ', JSON.stringify(route.params.user, null, 2));
-  const {email, emailVerified, uid} = route.params.user;
+  const {email, name, imageUrl} = route.params.user;
   const theme = useTheme();
-  const [userImage, setUserImage] = useState<string | undefined>();
 
-  const dowwnloadImage = async () => {
-    try {
-      const url = await getDownloadUrl(`profileImage/${uid}`);
-      setUserImage(url);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const dowwnloadImage = async () => {
+  //   try {
+  //     const url = await getDownloadUrl(`profileImage/${uid}`);
+  //     setUserImage(url);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   useEffect(() => {}, []);
-  dowwnloadImage();
+  // dowwnloadImage();
   return (
     <Screen>
       <FlexBox spread>
         <Title style={styles.title}>User Information</Title>
         <ProfileImage
-          src={userImage}
+          src={imageUrl}
           rounded
           // radius={30}
           size={200}
           // onPress={() => setImagePickerVisibility(true)}
         />
-        <Row>
-          <Text style={styles.subTitle}>Email:</Text>
-          <Text style={styles.text}> {email}</Text>
-        </Row>
-        <Text style={styles.subTitle}>Varification Status:</Text>
-        <Text style={styles.text}>
+        <Text style={styles.text}> {name}</Text>
+        <Text style={styles.text}> {email}</Text>
+        {/* <Text style={styles.text}>
           {emailVerified ? 'Email varified' : 'Email varification is pending'}
         </Text>
         {!emailVerified && (
@@ -76,7 +63,7 @@ export const UserInfo = ({navigation, route}: Props) => {
               }
             }}
           />
-        )}
+        )} */}
       </FlexBox>
       <Button
         text="Logout"
@@ -116,7 +103,12 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   text: {
-    fontSize: 14,
-    fontWeight: '400',
+    fontSize: 22,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    width: '100%',
+
+    // margin: theme.dimen.margin.small,
+    marginTop: theme.dimen.margin.large,
   },
 });

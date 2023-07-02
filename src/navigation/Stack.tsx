@@ -15,7 +15,11 @@ function App() {
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="Register" component={Register} />
       <Stack.Screen name="Phone" component={PhoneLogin} />
-      <Stack.Screen name="UserInfo" component={UserInfo} />
+      <Stack.Screen
+        name="UserInfo"
+        component={UserInfo}
+        options={{headerShown: false}}
+      />
       <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
     </Stack.Navigator>
   );

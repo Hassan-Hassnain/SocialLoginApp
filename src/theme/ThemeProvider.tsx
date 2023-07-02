@@ -3,6 +3,7 @@ import * as React from 'react';
 import {DefaultTheme, PaperProvider} from 'react-native-paper';
 
 import {staticColors as colors} from './colors';
+import {dimen} from './dimen';
 
 // const lightTheme = {
 //   colors: {
@@ -51,6 +52,7 @@ import {staticColors as colors} from './colors';
 
 export const theme = {
   ...DefaultTheme,
+  dimen: dimen,
   colors: {
     ...DefaultTheme.colors,
     primary: colors.primary,

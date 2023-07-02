@@ -18,6 +18,7 @@ import {
 import {ErrorToast} from '~/Services/utils';
 import {StyleSheet} from 'react-native';
 import {Title} from '~/components/Title';
+import {getUserWithId} from '~/Services';
 import {useTheme} from 'react-native-paper';
 
 interface LoginScreenProps extends NavigationProps.Login {}
@@ -25,13 +26,19 @@ interface LoginScreenProps extends NavigationProps.Login {}
 export const Login = ({navigation}: LoginScreenProps) => {
   const theme = useTheme();
   const [initializing, setInitializing] = useState(true);
-  const [user, setUser] = useState<Firebase.AuthUser>();
+  const [user, setUser] = useState<Firebase.FireStoreUser>();
   const [info, setInfo] = useState({email: '', password: ''});
   const [passwordVisibility, setPasswordVisibility] = useState(true);
   const [loading, setLoading] = useState(false);
 
-  function onAuthStateChanged(response: Firebase.AuthUser | any) {
-    setUser(response);
+  async function onAuthStateChanged(response: Firebase.AuthUser | any) {
+    // if (!user) {
+    //   setInitializing(false);
+    //   return;
+    // }
+    const res = await getUserWithId(response.uid);
+    if (!res) return;
+    setUser(res.data() as Firebase.FireStoreUser);
     if (initializing) setInitializing(false);
   }
 

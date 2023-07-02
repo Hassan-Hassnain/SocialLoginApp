@@ -16,7 +16,7 @@ export const uploadProfilePicture = async (path: any, uploadUri: any) => {
       console.error(error.message);
     });
   await task;
-  return getDownloadUrl(path);
+  return await getDownloadUrl(path);
 };
 
 export const getDownloadUrl = (path: string) => {

@@ -1,7 +1,9 @@
 import DeviceInfo from 'react-native-device-info';
 
-export const fw = (size: number) => DeviceInfo.isTablet() ? Math.round(Number(size) * 1.3) : Number(size);
-export const font = (size: number) => DeviceInfo.isTablet() ? Math.round(Number(size) * 1.3) : Number(size);
+export const fw = (size: number) =>
+  DeviceInfo.isTablet() ? Math.round(Number(size) * 1.3) : Number(size);
+export const font = (size: number) =>
+  DeviceInfo.isTablet() ? Math.round(Number(size) * 1.3) : Number(size);
 
 const margin: Size = {
   tiny: fw(2),
